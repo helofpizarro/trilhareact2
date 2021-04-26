@@ -104,7 +104,7 @@
             cursor: default;
         }
         &:hover:not(:disabled){
-            
+            filter: brightness(0.8);
         }
 
         &.playButton{
@@ -115,9 +115,11 @@
 
             transition: filter 02s;
 
-        &:hover{
+        &:hover:not(:disabled){
             filter: brightness(0.95);    
-        }    
+        }
+        
+        
         
         }
 
