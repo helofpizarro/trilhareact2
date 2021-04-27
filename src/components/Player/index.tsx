@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { PlayerContext } from '../../contexts/PlayerContexts';
 import styles from './styles.module.scss';
 import Image from 'next/image';
@@ -6,8 +6,21 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 
+
 export function Player(){
     const {episodeList, currentEpisodeIndex, isPlaying, togglePlay} = useContext(PlayerContext)
+    const audioRef = useRef<HTMLAudioElement>(null);
+
+    useEffect(() => {
+        if (audioRef.current) {
+            return;
+        }
+        if(isPlaying) {
+            audioRef.current.play();
+        } else{
+            audioRef.current.pause();
+        }
+    }, [isPlaying])
     
     const episode = episodeList[currentEpisodeIndex]
 
@@ -56,7 +69,9 @@ export function Player(){
             {episode && (
                 <audio
                 src={episode.url}
+                ref={audioRef}
                 autoPlay
+
                 />
 
                 
@@ -77,7 +92,7 @@ export function Player(){
                 onClick={togglePlay}
                 >
                     {isPlaying 
-                    ? <img src="/play-pause.svg" alt="Tocar"/>
+                    ? <img src="/pause.svg" alt="Tocar"/>
                     : <img src="/play.svg" alt="Tocar" />}
                     
                 </button>
